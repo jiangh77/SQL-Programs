@@ -3,7 +3,7 @@
 -- This file demonstrates the following commands
 -- USE database
 -- CREATE, DELETE, ALTER, TRUNCATE Table
--- CREATE PRIMARY keys and FOREIGN Keys
+-- CREATE and ADD PRIMARY keys and FOREIGN Keys
 -- CREATE Views using INNER JOIN, OUTER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN and CROSS JOIN
 -- SELECT, INSERT, UPDADTE, DELETE rows
 -- EXECUTE, SET POINT, ROLL BACK
