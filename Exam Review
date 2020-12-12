@@ -1,0 +1,421 @@
+Exam Review
+This file is a review of all the commands learned at Data Analytics Program at Bow Valley College
+
+USE [Exam Review]
+
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (ID)
+);
+
+
+SELECT * FROM Test
+SELECT * FROM Persons
+
+SELECT        ID, LastName, FirstName, Age
+FROM            Test
+WHERE        (LastName = 'Jiang')
+ORDER BY LastName, FirstName DESC
+
+SELECT        Persons.LastName, Persons.FirstName, Test.ID, Test.Age, Persons.ID * Persons.Age AS Expr1
+FROM            Persons INNER JOIN
+                         Test ON Persons.ID = Test.ID
+
+SELECT        Persons.LastName, Persons.FirstName, Test.ID, Test.Age, Persons.ID * Persons.Age AS Expr1
+FROM            Persons INNER JOIN
+                         Test ON Persons.ID = Test.ID
+ORDER BY Expr1 DESC
+
+select * from Test where ID > 99
+except
+select * from Persons where ID < 106
+
+select LastName, FirstName, Age from Test where ID > 99
+except
+select LastName, FirstName, Age from Persons where ID < 106
+
+select ID from Test
+intersect
+select ID from Persons
+
+select ID from Test
+except
+select ID from Persons
+
+select Test.LastName, Test.FirstName, Persons.Age, Persons.ID from test
+inner join Persons
+on Test.ID = Persons.ID
+
+select Test.LastName, Test.FirstName, Persons.Age, Persons.ID from test
+left join Persons
+on Test.ID = Persons.ID
+
+select Test.LastName, Test.FirstName, Persons.Age, Persons.ID from test
+right join Persons
+on Test.ID = Persons.ID
+
+select Test.LastName, Test.FirstName, Persons.Age, Persons.ID from test
+full outer join Persons
+on Test.ID = Persons.ID
+
+select * from Test
+inner join Persons on Test.ID = Persons.ID
+
+select * from Test
+right join Persons on Test.ID = Persons.ID
+
+select * from Test
+left join Persons on Test.ID = Persons.ID
+
+select * from Test
+full outer join Persons on Test.ID = Persons.ID
+
+select * from Test
+cross join Persons
+
+select Test.ID from Test
+cross join Persons
+
+select Test.ID from test, Persons
+
+select * from Test WHERE Test.ID > 99
+CROSS JOIN Persons
+
+
+
+SELECT COUNT(ID)
+FROM Test
+
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+
+ALTER TABLE Persons
+ADD CONSTRAINT PK_Person PRIMARY KEY (ID);
+
+ALTER TABLE Persons
+DROP CONSTRAINT PK_Person;
+
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+
+ALTER TABLE Persons
+ADD CONSTRAINT PK_Person PRIMARY KEY (ID);
+
+ALTER TABLE Persons
+ADD UNIQUE (LastName)
+
+ALTER TABLE Persons
+DROP UNIQUE (LastName)
+
+ALTER TABLE Persons
+ADD CONSTRAINT Person_Last UNIQUE (FirstName)
+
+CREATE TABLE Test (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int
+);
+
+ALTER TABLE Persons
+ADD CONSTRAINT PK_PersonID PRIMARY KEY (ID)
+
+/* for some reason the FOREIGN KEY statement below is not working but it should */
+
+ALTER TABLE Test
+ADD CONSTRAINT FK_MyID FOREIGN KEY (ID) REFERENCES Persons(ID)
+
+CREATE TABLE Planets1 (name varchar (50), diameter varchar (50))
+INSERT INTO Planets1 (name, diameter) VALUES ('earth', CAST (10000 AS varchar (50)))
+select * from Planets1
+
+CREATE VIEW ViewTest AS
+SELECT ID, Age from Test
+
+select * from ViewTest
+
+insert into Test values (101, 'Jiang', 'Howard', 42)
+insert into Test values (102, 'Lau', 'Jon', 37)
+
+create view ViewTest1 AS
+select ID, Age from Test
+where ID = (101)
+
+select * from Persons
+select * from test
+
+insert into Persons values (103, 'Tang', 'Mark', 42)
+insert into Persons values (104, 'Hsu', 'Dan', 38)
+
+select LastName, FirstName from Test where ID > 100
+select LastName, FirstName from Test where ID = 101
+select LastName, FirstName from Test where FirstName = 'howard'
+
+select distinct LastName from Test
+select * from Test order by ID ASC
+select * from Test order by ID DESC
+
+select * from Test where ID > 100 AND ID < 104
+select * from Test where ID between 100 and 104
+select LastName,FirstName, Age from Test where not ID = 101
+select LastName,FirstName, Age from Test where ID <> 101
+
+insert into Test values (103, 'Tang', 'Mark', 42)
+insert into Test values (104, 'Hsu', 'Dan', 38)
+
+select * from Test
+select * from Persons
+
+select LastName, FirstName from Test
+where ID = 101
+union
+select LastName, FirstName from Persons
+where ID = 104
+
+select * from Test
+where ID = 101
+union
+select * from Persons
+where ID = 104
+
+
+select * from Test
+where ID between 102 and 103
+intersect
+select * from Persons
+where ID < 104
+
+select * from Test
+where ID > 100
+intersect
+select * from Persons
+where ID < 104
+
+select ID, Age, FirstName from Test
+where ID > 100
+intersect
+select ID, Age, FirstName from Persons
+where ID < 104
+
+select ID from Test
+intersect
+select ID from Persons
+
+select Age from Test
+intersect
+select Age from Persons
+
+SELECT ID, Age
+FROM Test
+INTERSECT
+SELECT ID, Age
+FROM Persons
+
+select Age from Test
+except
+select Age from Persons
+
+select ID from Test
+except
+select ID from Persons
+
+
+insert into Test values (100, 'Ben', 'Hsu', 33)
+insert into Persons values (105, 'Dan', 'Cheng', 38)
+
+select * from Test where ID > 99
+intersect
+select * from Persons where ID < 106
+
+select * from Test where ID > 99
+except
+select * from Persons where ID < 106
+
+select ID from Test
+intersect
+select ID from Persons
+
+select ID from Test
+except
+select ID from Persons
+
+select * from Test
+select * from Persons
+
+select Test.FirstName, Test.LastName, Persons.ID, Persons.Age
+from Test inner join Persons
+on Test.ID = Persons.ID
+
+create view View_2 as
+select Test.FirstName, Test.LastName, Persons.ID, Persons.Age
+from Test inner join Persons
+on Test.ID = Persons.ID
+
+select * from View_2
+
+select * from Test cross join Persons
+
+INSERT INTO Test (ID, FirstName, LastName, Age) values (99, 'Yang', 'Mi', 33)
+DELETE FROM Test WHERE ID = 99
+
+INSERT INTO Test (ID, LastName, FirstName, Age) values (99, 'Yang', 'Mi', 33), (98, 'Yao', 'Bi', 33)
+insert into Test (ID, LastName) values (97,'Name')
+DELETE FROM Test WHERE ID = 97
+
+update Test
+set LastName = 'Fu', Age = 32
+where ID = 98
+
+update Test
+set Age = 33
+where ID = 98
+
+select * from Test
+select * from View_1
+
+select * from ViewTest
+select * from ViewTest1
+
+delete from ViewTest
+where ID = 98
+
+delete from ViewTest
+where ID < 101
+
+insert into Test values (96, 'Bi', 'Yao', 32)
+
+select * from test
+
+
+select * from test
+cross join Persons
+
+select Test.ID from test
+cross join Persons
+
+select Test.ID from test, Persons
+
+/* RESTORE DATABASE Example */
+RESTORE DATABASE Practice FROM DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\Backup\practice.bak'
+
+SELECT * FROM Persons
+SELECT * FROM Planets
+SELECT * FROM Planets1
+SELECT * FROM Test
+
+/* COUNT HAVING */
+SELECT COUNT(ID), Age
+FROM Test
+GROUP BY Age
+HAVING COUNT(ID) > 1;
+
+/* the following doesn't work */
+SELECT COUNT(ID)
+FROM Test
+HAVING COUNT(ID) > 1;
+
+SELECT COUNT(ID)
+FROM Test
+HAVING COUNT(ID) > 2;
+
+SELECT COUNT (*) FROM Test
+
+/* CASE (CASE...WHEN...THEN...ELSE...END) */
+
+SELECT ID, Age,
+CASE 
+	WHEN ID > 101 THEN 'ID > 101'
+	WHEN ID = 101 THEN 'ID = 101'
+	ELSE 'ID < 101'
+END AS QuantityText
+FROM Test;
+
+SELECT ID, Age,
+CASE 
+	WHEN ID > 102 THEN 'ID > 102'
+	WHEN ID <= 102 AND ID > 99 THEN 'ID <= 102 and ID > 99'
+	ELSE 'ID <= 99'
+END AS PrintText
+FROM Test;
+
+SELECT * FROM Persons
+
+/* SET NOCOUNT ON */
+SET NOCOUNT ON
+INSERT INTO Persons VALUES (102, 'Tang', 'Cristina', 42)
+INSERT INTO Persons VALUES (101, 'Hsu', 'Gab', 32)
+
+SET NOCOUNT OFF
+INSERT INTO Persons VALUES (100, 'Ho', 'Rene', 32)
+INSERT INTO Persons VALUES (99, 'Ho', 'Alvin', 35)
+
+SELECT * FROM Test
+
+/* Stored Procedure */
+CREATE PROCEDURE ShowTest
+AS
+SELECT * FROM Test
+
+EXEC ShowTest
+EXECUTE ShowTest
+
+CREATE PROCEDURE SelectID @ShowAge int
+AS
+SELECT * FROM Test WHERE Age = @ShowAge
+
+EXEC SelectID @ShowAge = 32
+
+DROP PROCEDURE SelectID;
+
+SELECT * FROM Test
+
+SELECT COUNT (*) FROM Test
+
+SELECT ID, Age
+FROM Test
+INTERSECT
+SELECT ID, Age
+FROM Persons
+
+SELECT * FROM Test
+INTERSECT
+SELECT * FROM Persons
+
+SELECT * FROM Persons
+UNION
+SELECT * FROM Test
+
+SELECT ID, Age FROM Persons
+UNION
+SELECT ID, Age FROM Test
+
+SELECT DISTINCT ID FROM Test
+
+select ID from Test
+except
+select ID from Persons
+
+select ID from Test
+except
+select ID from Persons
+
+select * from Test
+except
+select * from Persons
+
+select ID from Test
+intersect
+select ID from Persons
+
+select * from Test
+intersect
+select * from Persons
+
+INSERT INTO Test VALUES (105, 'Margret', 'Cheng', 32)
+
+UPDATE Test SET Age = 38 WHERE ID = 105
+
+-- the end
