@@ -27,7 +27,7 @@ USE Cryptocurrency
 
 CREATE table [Top 10 Crypto](
 	Ranking INT NOT NULL,
-	Name nvarchar (50) NOT NULL,
+	Symbol nvarchar (50) NOT NULL,
 	Price decimal (20,2),
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
@@ -38,7 +38,7 @@ GO
 
 CREATE table [De-Fi](
 	Ranking INT NOT NULL,
-	Name nvarchar (50) PRIMARY Key NOT NULL,
+	Symbol nvarchar (50) PRIMARY Key NOT NULL,
 	Price decimal (20,2),
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
@@ -49,7 +49,7 @@ GO
 
 CREATE table Smaple_Portfolio(
 	Ranking INT NOT NULL,
-	Name nvarchar (50) NOT NULL,
+	Symbol nvarchar (50) NOT NULL,
 	Amount INT NULL,
 	[Purchase Price] decimal (20,2),
 	[Selling Price] decimal (20,2),
@@ -63,13 +63,13 @@ GO
 
 INSERT INTO [Top 10 Crypto] VALUES (1, 'BTC', 18321.69, 340.12, 18.57);
 
-INSERT INTO [Top 10 Crypto](Ranking, name, Price, Marketcap, TotalSupply)
+INSERT INTO [Top 10 Crypto](Ranking, Symbol, Price, Marketcap, TotalSupply)
 VALUES (2, 'ETH', 553.89, 63.12, 113.80),
 (3, 'XRP', 0.53, 24.12, 45404.03);
 
 INSERT INTO [Top 10 Crypto] VALUES (4, 'USDT', 1.00, 19.83, 19817);
 
-INSERT INTO [Top 10 Crypto](Ranking, name, Price, Marketcap, TotalSupply)
+INSERT INTO [Top 10 Crypto](Ranking, Symbol, Price, Marketcap, TotalSupply)
 VALUES (5, 'BCH', 264.8, 1.92, 18.57),
 (6, 'LTC', 74.66, 4.93, 66.07),
 (7, 'LINK', 12.06, 4.78, 396.51),
@@ -84,7 +84,7 @@ SELECT * FROM [Top 10 Crypto];
 -- Marketcap is in Billions
 -- TotalSupply is in Millions
 
-INSERT INTO [De-Fi] (Ranking, name, Price, Marketcap, TotalSupply)
+INSERT INTO [De-Fi] (Ranking, Symbol, Price, Marketcap, TotalSupply)
 VALUES (1, 'LINK', 12.06, 4.78, 396.51),
 (2, 'WBTC', 18321.69, 2.13, 0.12),
 (3, 'DAI', 1.00, 1.07, 1063.63),
@@ -94,7 +94,7 @@ VALUES (1, 'LINK', 12.06, 4.78, 396.51),
 -- INSERT VALUES INTO table Sample_Portfolio
 -- Price is in USD
 
-INSERT INTO Sample_Portfolio (Ranking, name, Amount, [Purchase Price], [Selling Price])
+INSERT INTO Sample_Portfolio (Ranking, Symbol, Amount, [Purchase Price], [Selling Price])
 VALUES (1, 'BTC', 0.7, 8000, 1000000),
 (2, 'ETH', 1, 250, 15000),
 (3, 'ADA', 17000, 0.12, 40),
