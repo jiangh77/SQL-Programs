@@ -1,0 +1,430 @@
+This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
+
+use test
+go
+
+select student_id, name, grade, class_id, teacher, room into normal from school
+
+select student_id, name, grade, class_id into students from school
+select class_id, teacher, room into class from school
+
+select * from students
+select * from class
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+
+/*-- create parent table class --*/
+create table class (
+class_id int primary key NOT NULL,
+teacher nvarchar (50) NOT NULL,
+room int NOT NULL)
+
+insert into class values (101, 'Arta', 2047)
+insert into class (class_id, teacher, room)
+values (102, 'Cristina', 615),
+(103, 'Ronna', 720);
+
+select * from class
+select teacher, room from class
+
+/*-- create child table students --*/
+create table students (
+student_id int NOT NULL,
+name nvarchar (50) NOT NULL,
+grade float NOT NULL,
+class_id int NOT NULL)
+
+select * from students
+
+insert into students values (20201, 'Bayo', 4.0, 101)
+insert into students values (20202, 'Job', 3.8, 101)
+
+insert into students (student_id, name, grade, class_id)
+values (20205, 'Muhammad', 3.7, 101),
+(20212, 'Manohar', 3.9, 101),
+(20213, 'Jia', 3.5, 101),
+(20214, 'Mike', 3.6, 101),
+(20207, 'Howard', 3.8, 101),
+(20206, 'Adriana', 3.9, 101);
+
+insert into students values (20215, 'Dan', 3.7, 101)
+insert into students values (20219, 'Sarah', 3.6, 101)
+
+insert into students values (20202, 'Naeem', 3.9, 102)
+insert into students values (20208, 'Kulwant', 3.6, 102)
+
+insert into students (student_id, name, grade, class_id)
+values (20209, 'Chiny', 3.6, 102),
+(20217, 'Bill', 3.9, 102),
+(20218, 'David', 4.0, 102),
+(20215, 'Dan', 4.0, 102),
+(20210, 'Claudia', 3.5, 102);
+
+insert into students values (20203, 'Mauro', 4.0, 103)
+insert into students values (20206, 'Adriana', 4.0, 103)
+
+insert into students (student_id, name, grade, class_id)
+values (20207, 'Howard', 4.0, 103),
+(20210, 'Claudia', 3.7, 103),
+(20211, 'Adil', 3.8, 103),
+(20215, 'Dan', 3.7, 103),
+(20216, 'Philip', 3.8, 103),
+(20220, 'Mark', 3.6, 103)
+
+select * from students
+
+/*-- update --*/
+update students set grade = 3.9 where student_id = 20207 and class_id = 101
+update students set grade = 4.0 where student_id = 20207 and class_id = 101
+update students set grade = 3.9 where student_id = 20207 and class_id = 103
+update students set grade = 3.8 where student_id = 20207
+update students set grade = 4.0 where student_id = 20207
+
+update students set class_id = 104 where student_id = 20201
+update students set class_id = 105 where student_id = 20213
+update students set class_id = 106 where student_id = 20205
+update students set class_id = 104 where student_id = 20214
+update students set class_id = 105 where student_id = 20215
+update students set class_id = 106 where student_id = 20219
+
+/*-- try update and insert a student with NULL value - error --*/
+update students set class_id = NULL where name = 'Dan'
+insert into students values (20221, 'New Student', NULL, NULL)
+
+/*-- inner join --*/
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+
+select students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+
+select students.student_id, students.name, class.teacher
+from students inner join class
+on students.class_id = class.class_id
+
+update students set class_id = 104 where student_id = 20212
+update students set class_id = 105 where student_id = 20210
+update students set class_id = 106 where student_id = 20211
+update students set class_id = 107 where student_id = 20217
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class.id
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.class_id = 101
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.teacher = 'Arta'
+order by students.student_id DESC, students.name DESC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.class_id = 101 and students.name = 'Howard' or student_id = 20206
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.class_id = 101 and students.name = 'Howard' or student_id = 20206
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.class_id = 101 and students.name = 'Howard' or class.class_id = 103 and student_id = 20206
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.class_id = 101 and students.name = 'Howard' or class.class_id = 103
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where class.class_id = 101 and class.class_id = 103
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where students.class_id = 101 or class.class_id = 103
+order by students.student_id ASC, students.name ASC
+
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+where students.name = 'Howard' and students.student_id = 20207 and class.class_id = 101
+order by students.student_id ASC, students.name ASC
+
+/*-- left outer join --*/
+select students.student_id, students.name, class.teacher, class.room
+from students left join class
+on students.class_id = class.class_id
+
+select * from students
+select * from class
+
+select students.name, class.teacher, class.room
+from students left outer join class
+on students.class_id = class.class_id
+
+select students.name, class.teacher, class.room
+from students right outer join class
+on students.class_id = class.class_id
+
+/*-- right outer join --*/
+select students.student_id, students.name, class.teacher, class.room
+from students inner join class
+on students.class_id = class.class_id
+
+/*-- full outer join --*/
+select students.student_id, students.name, class.teacher, class.room
+from students full outer join class
+on students.class_id = class.class_id
+
+select students.student_id, students.name, class.teacher, class.room
+from students full outer join class
+on students.class_id = class.class_id
+where class.class_id = 101
+
+select students.student_id, students.name, class.teacher, class.room
+from students full outer join class
+on students.class_id = class.class_id
+where class.class_id > 101
+
+select students.student_id, students.name, class.teacher, class.room
+from students full outer join class
+on students.class_id = class.class_id
+where class.class_id <> 102
+
+insert into class values (108, 'Mike', 121)
+insert into class values (109, 'Jon', 122)
+
+/*-- left outer join --*/
+select students.student_id, students.name, class.teacher, class.room
+from students left outer join class
+on students.class_id = class.class_id
+
+/*-- full outer join --*/
+select students.student_id, students.name, class.teacher, class.room
+from students full outer join class
+on students.class_id = class.class_id
+
+/*-- UNION Clause --*/
+/*-- the number and order of the columns must be the same in each of the queries in the clause --*/
+/*-- the data type you use must be compatible --*/
+/*-- can use students table or class table but since the number of columns are different, can only demonstrate with one table --*/
+
+select student_id, name from students where class_id = 101
+union
+select student_id, name from students where grade = 4.0
+
+select student_id, name from students where class_id = 101
+union
+select student_id, name from students where student_id between 20205 and 20212
+
+/*-- EXCEPT and INTERSECT Clauses --*/
+/*-- the number and order of the columns must be the same in each of the queries in the clause --*/
+/*-- the data type you use must be compatible --*/
+/*-- can use students table or class table but since the number of columns are different, can only demonstrate with one table --*/
+
+select name from students
+intersect
+select student_id from students
+
+select student_id from students
+intersect
+select class_id from students
+where student_id = 20205
+
+/*-- do not need second dataset --*/
+/*-- create child table students --*/
+
+create table classmates (
+student_id int NOT NULL,
+name nvarchar (50) NOT NULL,
+grade float NOT NULL,
+class_id int NOT NULL)
+
+select * from classmates
+
+truncate table classmates
+
+insert into classmates values (20201, 'Bayo', 4.0, 104)
+insert into classmates values (20202, 'Job', 3.8, 101)
+
+insert into classmates (student_id, name, grade, class_id)
+values (20205, 'Muhammad', 3.7, 106),
+(20212, 'Manohar', 3.9, 104),
+(20207, 'Howard', 4.0, 101),
+(20206, 'Adriana', 3.9, 101),
+(20218, 'David', 4.0, 102),
+(20209, 'Chiny', 3.6, 102),
+(20203, 'Mauro', 4.0, 103),
+(20207, 'Howard', 4.0, 103),
+(20221, 'Jon', 4.0, 101),
+(20222, 'Jimmy', 4.0, 102),
+(20223, 'Flo', 4.0, 105),
+(20224, 'Alex', 3.6, 102),
+(20225, 'Sam', 3.9, 103);
+
+/*-- INTERSECT Clauses --*/
+/*-- can only return one result at a time --*/
+select student_id, name from students where class_id = 101
+intersect
+select student_id, name from students where grade = 4.0
+
+select class_id from students where grade = 4.0
+intersect
+select class_id from students where class_id = 101 or class_id = 102
+
+select class_id from students where grade = 4.0 
+intersect
+select class_id from students where class_id = 101
+
+update students set grade = 4.0 where name = 'Adriana'
+
+select class_id from students where grade = 4.0
+intersect
+select class_id from students where class_id = 101 or class_id = 104
+
+/*-- doesn't work --*/
+select class_id from students where grade > 3.9
+intersect
+select class_id from students where class_id = 101 or class_id = 104
+
+/*-- doesn't work --*/
+select class_id from students where grade = 4.0
+intersect
+select class_id from students where class_id > 100
+
+/*-- doesn't work --*/
+select name from students where grade = 4.0
+intersect
+select class_id from students where class_id = 101 or class_id = 104
+
+/*-- doesn't work --*/
+select class_id from students where grade > 3.9
+intersect
+select class_id from students where class_id > 101
+
+/*-- EXCEPT Clause --*/
+select class_id from students
+except
+select class_id from students where class_id = 101
+
+select class_id from students where grade = 4.0
+except
+select class_id from students where class_id = 101
+
+select class_id from students
+except
+select * from students where class_id = 101
+/*-- don't know how many records satisfy the conditions, need a way to count --*/
+
+select class_id from students where class_id between 101 and 107
+except
+select class_id from students where grade = 4.0
+
+select student_id, class_id from students
+except
+select student_id, class_id from students where class_id between 102 and 105
+
+select student_id, class_id from students where grade between 3.0 and 4.0
+except
+select student_id, class_id from students where class_id between 101 and 102
+
+select student_id, class_id from students where grade between 3.0 and 4.0
+except
+select student_id, class_id from students where class_id > 101
+
+select student_id, class_id from students where grade between 3.0 and 4.0
+except
+select student_id, class_id from students where class_id between 101 and 107
+
+select student_id, class_id from students where grade between 3.0 and 4.0
+except
+select student_id, class_id from students where class_id < 105
+
+select * from students
+
+/*-- add primary key after creating a table --*/
+ALTER table class ADD Constraint PK_class PRIMARY KEY (class_id)
+/*-- in this case primary key name is PK_class, class happens to be the table name, it could be a random name like PK_abc and it will still work --*/
+
+/*-- add primary key after creating a table the following doesn't work --*/
+ALTER table extra ADD Constraint PK_example (orderNum) PRIMARY KEY
+
+select * from classmates
+select * from class
+select * from extra
+select * from mystocks
+select * from normal
+
+drop table normal
+
+select * from RawData
+select * from school
+select * from students
+select * from summary
+select * from TestData
+
+select student_id from students where grade = 4.0
+intersect
+select student_id from students where class_id = 101
+
+select name, student_id from students where grade = 4.0
+intersect
+select name, student_id from students where class_id = 101
+select * from students where grade = 4.0
+intersect
+select * from students where class_id = 101
+
+select name from students where grade = 4.0
+intersect
+select name from students2 where grade = 4.0
+
+select * into students2 from students
+
+select * from students where grade = 4.0
+intersect
+select * from students2 where class_id = 101
+
+select name from students where grade = 4.0
+intersect
+select name from students2 where class_id = 102
+
+select name from students where grade = 4.0
+intersect
+select name from students where grade = 4.0
+
+select * from students where grade = 4.0
+except
+select * from students2 where class_id = 100
+
+select * from students
+
+select * from students where grade = 4.0
+union
+select * from students2 where class_id > 100
+
+select distinct name from students
+
+-- the end
