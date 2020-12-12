@@ -8,3 +8,5 @@ TRUNCATE a TABLE
 
 CREATE Another Table
 INSERT data about De-Fi cryptocurrencies
+
+CREATE PRIMARY and FOREIGN Keys
