@@ -1,12 +1,16 @@
-Create a Cryptocurrency Database with info about top 10 cryptocurrency on coinmarketcap.com
+-- This file create a Database with data about Cryptocurrencies
 
-CREATE Main Table
-INSERT info about top 10 cryptocurrency
-DELETE rows
-DELETE a TABLE
-TRUNCATE a TABLE
-
-CREATE Another Table
-INSERT data about De-Fi cryptocurrencies
-
-CREATE PRIMARY and FOREIGN Keys
+-- This file demonstrates the following commands
+-- USE database
+-- CREATE, DELETE, ALTER, TRUNCATE Table
+-- CREATE PRIMARY keys and FOREIGN Keys
+-- CREATE Views using INNER JOIN, OUTER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN and CROSS JOIN
+-- SELECT, INSERT, UPDADTE, DELETE rows
+-- EXECUTE, SET POINT, ROLL BACK
+-- User Defined Procedures
+-- Built-in Procedures
+-- Built-in Functions
+-- SET PERMISSIONS using GRANT, DENY, REVOKE
+-- CREATE New Users
+-- CREATE and Set database roles
+-- Set server roles
