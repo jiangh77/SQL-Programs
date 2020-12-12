@@ -1,0 +1,10 @@
+Create a Cryptocurrency Database with info about top 10 cryptocurrency on coinmarketcap.com
+
+CREATE Main Table
+INSERT info about top 10 cryptocurrency
+DELETE rows
+DELETE a TABLE
+TRUNCATE a TABLE
+
+CREATE Another Table
+INSERT data about De-Fi cryptocurrencies
