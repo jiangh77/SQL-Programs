@@ -1,4 +1,4 @@
--- This file create a Database with data about Cryptocurrencies
+-- This file create a Database with data on Cryptocurrencies from coinmarketcap.com and Manipulates the data
 
 -- This file demonstrates the following commands
 -- USE database
