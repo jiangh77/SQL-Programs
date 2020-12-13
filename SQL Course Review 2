@@ -1,4 +1,5 @@
 -- This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
+-- SQL Course Review 2
 
 use review
 go
@@ -138,5 +139,3 @@ full outer join FinalGrade on studentinfo.studentID = FinalGrade.studentID
 /*-- show studentID 3 times --*/
 select *
 from studentinfo inner join marks on studentinfo.studentID = marks.studentID
-
--- the end
