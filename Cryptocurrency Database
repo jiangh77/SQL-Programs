@@ -12,7 +12,7 @@ SELECT, INSERT, UPDADTE, DELETE rows
 COUNT(), AVG() and SUM() Functions
 DISTINCT statement
 CASE ... WHEN ... THEN ... ELSE statement
-EXECUTE, SET POINT, ROLL BACK
+BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE, SAVEPOINT, RELEASE SAVEPOINT
 SET NOCOUNT ON, SET NOCOUNT OFF
 User Defined Procedures
 Built-in Procedures
@@ -33,7 +33,7 @@ CREATE table [Top 10 Crypto](
 	Price decimal (20,2),
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
-	)
+	);
 GO
 
 -- Add PRIMARY KEY based on the Symbol column
@@ -49,7 +49,7 @@ CREATE table Portfolio(
 	Amount INT NULL,
 	[Purchase Price] decimal (20,2),
 	[Selling Price] decimal (20,2),
-)
+);
 GO
 
 -- Add foreign key
@@ -65,7 +65,7 @@ CREATE table [De-Fi](
 	Price decimal (20,2),
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
-	)
+	);
 GO
 
 -- INSERT VALUES INTO table [Top 10 Crypto]
@@ -90,6 +90,7 @@ VALUES (5, 'BCH', 264.8, 1.92, 18.57),
 (10, 'BNB', 27.80, 4.01, 144.41);
 
 SELECT * FROM [Top 10 Crypto];
+SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
 
 -- INSERT VALUES INTO table [De-Fi]
 -- Price is in USD
@@ -103,7 +104,8 @@ VALUES (1, 'LINK', 12.06, 4.78, 396.51),
 (4, 'AAVE', 77.97, 0.93, 11.97),
 (5, 'UNI', 3.12, 0.78, 251.70);
 
-SELECT * FROM [De-Fi]
+SELECT * FROM [De-Fi];
+SELECT * FROM [De-Fi] ORDER BY TotalSupply;
 
 -- INSERT VALUES INTO table Sample_Portfolio
 -- Price is in USD
@@ -120,59 +122,94 @@ VALUES (1, 'BTC', 0.7, 8000, 1000000),
 CREATE VIEW CoinMatch AS
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
-INNER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+INNER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
 
-SELECT * FROM CoinMatch
+SELECT * FROM CoinMatch;
 
 CREATE VIEW CoinMatch2 AS
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
-FROM [Top 10 Crypto] CROSS JOIN Portfolio
+FROM [Top 10 Crypto] CROSS JOIN Portfolio;
 
-SELECT * FROM CoinMatch2
+SELECT * FROM CoinMatch2;
+
+CREATE VIEW CoinMatch3 AS
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Symbol
+FROM [Top 10 Crypto]
+INNER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
+
+SELECT * FROM CoinMatch3;
 
 -- SELECT using LEFT and RIGHT OUTER JOIN and ORDER BY ASC and DSC
 
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
 LEFT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
-ORDER BY [Top 10 Crypto].Ranking ASC
+ORDER BY [Top 10 Crypto].Ranking ASC;
 
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
 RIGHT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
-ORDER BY [Top 10 Crypto].Ranking DESC
+ORDER BY [Top 10 Crypto].Ranking DESC;
 
 -- COUNT, AVG, SUM Functions
 
 SELECT COUNT(Symbol)
 FROM [Top 10 Crypto]
-WHERE Price > 300
+WHERE Price > 300;
 
 SELECT AVG(Price)
 FROM [Top 10 Crypto]
-WHERE Ranking < 5
+WHERE Ranking < 5;
 
 SELECT SUM(Marketcap)
 FROM [Top 10 Crypto]
-WHERE Symbol <> 'BTC'
+WHERE Symbol <> 'BTC';
 
 -- DISTINCT
 
 SELECT DISTINCT Symbol
-FROM [De-Fi]
+FROM [De-Fi];
 
 -- CASE ... WHEN ... THEN ... ELSE statement
 
-SELECT * FROM [Top 10 Crypto]
+SELECT * FROM [Top 10 Crypto];
 
 SELECT Symbol, Ranking, Marketcap,
 CASE
-	WHEN Marketcap > 100 THEN 'The Marketcap is greater than $100 billion'
-	WHEN Marketcap < 100 AND Marketcap >= 60 THEN 'The Marketcap is greater than $60 billion but less than $100 billion'
-	WHEN Marketcap < 60 AND Marketcap >= 10 THEN 'The Marketcap is greater than $10 billion but less than $60 billion'
-	ELSE 'The Marketcap is less than $10 billion'
+	WHEN Marketcap > 100 THEN 'The Marketcap of this coin is greater than $100 billion'
+	WHEN Marketcap < 100 AND Marketcap >= 60 THEN 'The Marketcap of this coin is greater than $60 billion but less than $100 billion'
+	WHEN Marketcap < 60 AND Marketcap >= 10 THEN 'The Marketcap of this coin is greater than $10 billion but less than $60 billion'
+	ELSE 'The Marketcap of this coin is less than $10 billion'
 END AS Comparison
 FROM [Top 10 Crypto];
+
+-- BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE, SAVE POINT
+
+BEGIN TRAN
+DELETE FROM [Top 10 Crypto]
+WHERE Symbol = 'DOT';
+COMMIT;
+ROLLBACK;
+
+SELECT * FROM [Top 10 Crypto]
+
+INSERT INTO [Top 10 Crypto] VALUES (9, 'DOT', 4.74, 4.2, 886.86)
+INSERT INTO [Top 10 Crypto] VALUES (10, 'BNB', 27.80, 4.01, 144.41)
+
+SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
+
+SELECT * FROM Portfolio;
+
+DELETE FROM Portfolio WHERE Ranking = 1;
+ROLLBACK;
+
+SAVEPOINT SP1;
+DELETE FROM Portfolio WHERE Ranking = 1;
+SAVEPOINT SP2;
+DELETE FROM Portfolio WHERE Ranking = 5;
+SAVEPOINT SP3;
+DELETE FROM Portfolio WHERE Ranking = 3;
+ROLLBACK TO SP1;
 
 TRUNCATE table [Top 10 Crypto]
 DELETE [Top 10 Crypto]
