@@ -39,7 +39,7 @@ GO
 -- Add PRIMARY KEY based on the Symbol column
 
 ALTER TABLE [Top 10 Crypto]
-ADD CONSTRAINT PK_Coin PRIMARY KEY (Symbol);
+ADD CONSTRAINT PK_Rank PRIMARY KEY (Ranking);
 
 -- Create 1 table for Sample Portfolio
 
@@ -54,8 +54,8 @@ GO
 
 -- Add foreign key
 ALTER TABLE Portfolio
-ADD CONSTRAINT FK_Coin
-FOREIGN KEY (Symbol) REFERENCES [Top 10 Crypto](Symbol);
+ADD CONSTRAINT FK_Rank
+FOREIGN KEY (Ranking) REFERENCES [Top 10 Crypto](Ranking);
 
 -- Create 1 table for De-Fi (Decentralized Finanace) Coins listed on coinmarketcap.com
 
