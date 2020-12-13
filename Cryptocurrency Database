@@ -12,11 +12,11 @@ SELECT, INSERT, UPDADTE, DELETE rows
 COUNT(), AVG() and SUM() Functions
 DISTINCT statement
 CASE ... WHEN ... THEN ... ELSE statement
-BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE, SAVEPOINT, RELEASE SAVEPOINT
+BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE
 SET NOCOUNT ON, SET NOCOUNT OFF
 User Defined Procedures
-Built-in Procedures
 Built-in Functions
+
 SET PERMISSIONS using GRANT, DENY, REVOKE
 CREATE New Users
 CREATE and Set database roles
@@ -27,7 +27,7 @@ USE Cryptocurrency
 
 -- Create 1 table for top 10 cryptocurrencies listed on coinmarketcap.com
 
-CREATE table [Top 10 Crypto](
+CREATE TABLE [Top 10 Crypto](
 	Ranking INT NOT NULL,
 	Symbol nvarchar (50) NOT NULL,
 	Price decimal (20,2),
@@ -43,10 +43,10 @@ ADD CONSTRAINT PK_Rank PRIMARY KEY (Ranking);
 
 -- Create 1 table for Sample Portfolio
 
-CREATE table Portfolio(
+CREATE TABLE Portfolio(
 	Ranking INT NOT NULL,
 	Symbol nvarchar (50) NOT NULL,
-	Amount INT NULL,
+	Amount decimal (20, 2) NULL,
 	[Purchase Price] decimal (20,2),
 	[Selling Price] decimal (20,2),
 );
@@ -59,7 +59,7 @@ FOREIGN KEY (Ranking) REFERENCES [Top 10 Crypto](Ranking);
 
 -- Create 1 table for De-Fi (Decentralized Finanace) Coins listed on coinmarketcap.com
 
-CREATE table [De-Fi](
+CREATE TABLE [De-Fi](
 	Ranking INT NOT NULL,
 	Symbol nvarchar (50) PRIMARY Key NOT NULL,
 	Price decimal (20,2),
@@ -67,6 +67,15 @@ CREATE table [De-Fi](
 	TotalSupply decimal (20,2),
 	);
 GO
+
+-- Create a End table for testing purposes
+
+CREATE TABLE End_Table(
+	Ranking INT NOT NULL,
+	Symbol varchar (50) NOT NULL,
+	Amount decimal (10,3) NULL,
+	CONSTRAINT PK_Coin PRIMARY KEY (Symbol)
+);
 
 -- INSERT VALUES INTO table [Top 10 Crypto]
 -- Price is in USD
@@ -116,6 +125,12 @@ VALUES (1, 'BTC', 0.7, 8000, 1000000),
 (3, 'ADA', 17000, 0.12, 40),
 (4, 'XLM', 3300, 0.4, 20),
 (5, 'EOS', 247, 12.5, 1000);
+
+-- INSERT Values INTO End_Table
+
+INSERT INTO End_Table (Ranking, Symbol, Amount) VALUES (1, 'BTC', 56.3567),
+(2, 'ETH', 0.256),
+(3, 'XRP', 15.25678);
 
 -- CREATE a VIEWS using INNER JOIN and CROSS JOIN
 
@@ -200,24 +215,43 @@ SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
 
 SELECT * FROM Portfolio;
 
+BEGIN TRAN;
 DELETE FROM Portfolio WHERE Ranking = 1;
 ROLLBACK;
 
-SAVEPOINT SP1;
-DELETE FROM Portfolio WHERE Ranking = 1;
-SAVEPOINT SP2;
-DELETE FROM Portfolio WHERE Ranking = 5;
-SAVEPOINT SP3;
-DELETE FROM Portfolio WHERE Ranking = 3;
-ROLLBACK TO SP1;
+BEGIN TRAN;
+INSERT INTO Portfolio VALUES (6, 'TRX', 23000, 0.07, 10);
+COMMIT;
 
-TRUNCATE table [Top 10 Crypto]
-DELETE [Top 10 Crypto]
+SELECT * FROM Portfolio;
 
-TRUNCATE table [De-Fi]
-DELETE [De-Fi]
+-- CREATE and EXECUTE Procedures
 
-TRUNCATE table Portfolio
-DELETE Portfolio
+CREATE PROCEDURE Display
+AS
+SELECT * FROM Portfolio
+WHERE Amount > 100
+GO;
+
+EXECUTE Display;
+
+-- SET NOCOUNT ON, SET NOCOUNT OFF
+
+SET NOCOUNT ON;
+
+INSERT INTO [De-Fi] VALUES (6, 'FYI', 26061.23, 0.78, 0.029);
+
+SET NOCOUNT OFF;
+
+SELECT * FROM [De-Fi];
+
+-- TRUNCATE and DELETE End_Table
+
+TRUNCATE TABLE End_Table;
+DROP TABLE End_Table;
+
+-- Testing
+
+SELECT * FROM End_Table;
 
 -- the end
