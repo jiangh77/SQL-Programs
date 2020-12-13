@@ -1,4 +1,5 @@
 -- This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
+-- SQL Course Reciew 1
 
 USE [Exam Review]
 
@@ -416,5 +417,3 @@ select * from Persons
 INSERT INTO Test VALUES (105, 'Margret', 'Cheng', 32)
 
 UPDATE Test SET Age = 38 WHERE ID = 105
-
--- the end
