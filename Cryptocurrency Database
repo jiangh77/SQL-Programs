@@ -17,8 +17,7 @@ ORDER BY
 
 SELECT, INSERT, UPDADTE, DELETE rows
 
-Built-in Functions
-COUNT(), AVG() and SUM() Functions
+Built-in Functions: COUNT(), AVG() and SUM() Functions
 
 DISTINCT statement
 
@@ -26,13 +25,17 @@ CASE ... WHEN ... THEN ... ELSE statement
 
 BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE
 
+User Defined Procedures
+
 SET NOCOUNT ON, SET NOCOUNT OFF
 
-User Defined Procedures
+Check for Duplicates using COUNT(*), GROUP BY, HAVING COUNT(*)
+
+TRUNCATE and DROP TABLE
 */
 
 
--- USE database
+-- USE Cryptocurrency database
 
 USE Cryptocurrency;
 
@@ -45,7 +48,7 @@ CREATE TABLE [Top 10 Crypto](
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
 	);
-GO
+GO;
 
 
 -- Create 1 table for Sample Portfolio
@@ -57,7 +60,7 @@ CREATE TABLE Portfolio(
 	[Purchase Price] decimal (20,2),
 	[Selling Price] decimal (20,2),
 );
-GO
+GO;
 
 -- Create 1 table for De-Fi (Decentralized Finanace) Coins listed on coinmarketcap.com
 
@@ -68,7 +71,7 @@ CREATE TABLE [De-Fi](
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
 	);
-GO
+GO;
 
 -- Create a End table for testing purposes and CREATE a PRIMARY Key at the same time
 
@@ -78,7 +81,7 @@ CREATE TABLE End_Table(
 	Amount decimal (10,3) NULL,
 	CONSTRAINT PK_Coin PRIMARY KEY (Symbol)
 );
-GO
+GO;
 
 -- Add PRIMARY KEY on [Top 10 Crypto] table based on the Symbol column
 
@@ -191,7 +194,7 @@ RIGHT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
 ORDER BY [Top 10 Crypto].Ranking DESC;
 
 
--- COUNT, AVG, SUM Functions
+-- Built-in Functions: COUNT, AVG, SUM Functions
 
 SELECT COUNT(Symbol)
 FROM [Top 10 Crypto]
@@ -254,7 +257,7 @@ COMMIT;
 SELECT * FROM Portfolio;
 
 
--- CREATE and EXECUTE Procedures
+-- CREATE and EXECUTE User Defined Procedures
 
 CREATE PROCEDURE Display
 AS
@@ -274,6 +277,15 @@ INSERT INTO [De-Fi] VALUES (6, 'FYI', 26061.23, 0.78, 0.029);
 SET NOCOUNT OFF;
 
 SELECT * FROM [De-Fi];
+
+
+-- Check for Duplicates
+
+SELECT Symbol,
+COUNT (*) AS DUP
+FROM [Top 10 Crypto]
+GROUP BY Symbol
+HAVING COUNT (*) > 1;
 
 
 -- TRUNCATE and DROP End_Table
