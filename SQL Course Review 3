@@ -1,5 +1,7 @@
--- This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
--- SQL Course Review 3
+/*
+SQL Course Review 3
+This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
+*/
 
 use test
 go
@@ -427,5 +429,3 @@ union
 select * from students2 where class_id > 100
 
 select distinct name from students
-
--- the end
