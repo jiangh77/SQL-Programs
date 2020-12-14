@@ -1,5 +1,8 @@
--- This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
--- SQL Course Review 2
+/*
+SQL Course Review 2
+This SQL Program reviews all the knowledge learned in Data Analytics and Business Intelligence TechSkills Program at Bow Valley College
+*/
+
 
 use review
 go
