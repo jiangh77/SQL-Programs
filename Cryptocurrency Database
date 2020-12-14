@@ -16,14 +16,12 @@ BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE
 SET NOCOUNT ON, SET NOCOUNT OFF
 User Defined Procedures
 Built-in Functions
-
-SET PERMISSIONS using GRANT, DENY, REVOKE
-CREATE New Users
-CREATE and Set database roles
-Set server roles
 */
 
-USE Cryptocurrency
+
+-- USE database
+
+USE Cryptocurrency;
 
 -- Create 1 table for top 10 cryptocurrencies listed on coinmarketcap.com
 
@@ -36,10 +34,6 @@ CREATE TABLE [Top 10 Crypto](
 	);
 GO
 
--- Add PRIMARY KEY based on the Symbol column
-
-ALTER TABLE [Top 10 Crypto]
-ADD CONSTRAINT PK_Rank PRIMARY KEY (Ranking);
 
 -- Create 1 table for Sample Portfolio
 
@@ -52,11 +46,6 @@ CREATE TABLE Portfolio(
 );
 GO
 
--- Add foreign key
-ALTER TABLE Portfolio
-ADD CONSTRAINT FK_Rank
-FOREIGN KEY (Ranking) REFERENCES [Top 10 Crypto](Ranking);
-
 -- Create 1 table for De-Fi (Decentralized Finanace) Coins listed on coinmarketcap.com
 
 CREATE TABLE [De-Fi](
@@ -68,7 +57,7 @@ CREATE TABLE [De-Fi](
 	);
 GO
 
--- Create a End table for testing purposes
+-- Create a End table for testing purposes and CREATE a PRIMARY Key at the same time
 
 CREATE TABLE End_Table(
 	Ranking INT NOT NULL,
@@ -76,11 +65,26 @@ CREATE TABLE End_Table(
 	Amount decimal (10,3) NULL,
 	CONSTRAINT PK_Coin PRIMARY KEY (Symbol)
 );
+GO
 
--- INSERT VALUES INTO table [Top 10 Crypto]
--- Price is in USD
--- Marketcap is in Billions
--- TotalSupply is in Millions
+-- Add PRIMARY KEY on [Top 10 Crypto] table based on the Symbol column
+
+ALTER TABLE [Top 10 Crypto]
+ADD CONSTRAINT PK_Rank PRIMARY KEY (Ranking);
+
+-- Add foreign key to Portfolio table
+
+ALTER TABLE Portfolio
+ADD CONSTRAINT FK_Rank
+FOREIGN KEY (Ranking) REFERENCES [Top 10 Crypto](Ranking);
+
+
+/*
+INSERT VALUES INTO table [Top 10 Crypto]
+Price is in USD
+Marketcap is in Billions
+TotalSupply is in Millions
+*/
 
 INSERT INTO [Top 10 Crypto] VALUES (1, 'BTC', 18321.69, 340.12, 18.57);
 
@@ -101,10 +105,13 @@ VALUES (5, 'BCH', 264.8, 1.92, 18.57),
 SELECT * FROM [Top 10 Crypto];
 SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
 
--- INSERT VALUES INTO table [De-Fi]
--- Price is in USD
--- Marketcap is in Billions
--- TotalSupply is in Millions
+
+/*
+INSERT VALUES INTO table [De-Fi]
+Price is in USD
+Marketcap is in Billions
+TotalSupply is in Millions
+*/
 
 INSERT INTO [De-Fi] (Ranking, Symbol, Price, Marketcap, TotalSupply)
 VALUES (1, 'LINK', 12.06, 4.78, 396.51),
@@ -116,8 +123,11 @@ VALUES (1, 'LINK', 12.06, 4.78, 396.51),
 SELECT * FROM [De-Fi];
 SELECT * FROM [De-Fi] ORDER BY TotalSupply;
 
--- INSERT VALUES INTO table Sample_Portfolio
--- Price is in USD
+
+/*
+INSERT VALUES INTO table Sample Portfolio
+Price is in USD
+*/
 
 INSERT INTO Portfolio (Ranking, Symbol, Amount, [Purchase Price], [Selling Price])
 VALUES (1, 'BTC', 0.7, 8000, 1000000),
@@ -154,6 +164,7 @@ INNER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
 
 SELECT * FROM CoinMatch3;
 
+
 -- SELECT using LEFT and RIGHT OUTER JOIN and ORDER BY ASC and DSC
 
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
@@ -165,6 +176,7 @@ SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbo
 FROM [Top 10 Crypto]
 RIGHT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
 ORDER BY [Top 10 Crypto].Ranking DESC;
+
 
 -- COUNT, AVG, SUM Functions
 
@@ -180,10 +192,12 @@ SELECT SUM(Marketcap)
 FROM [Top 10 Crypto]
 WHERE Symbol <> 'BTC';
 
--- DISTINCT
+
+-- DISTINCT Function
 
 SELECT DISTINCT Symbol
 FROM [De-Fi];
+
 
 -- CASE ... WHEN ... THEN ... ELSE statement
 
@@ -198,18 +212,19 @@ CASE
 END AS Comparison
 FROM [Top 10 Crypto];
 
--- BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE, SAVE POINT
 
-BEGIN TRAN
+-- BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE
+
+BEGIN TRAN;
 DELETE FROM [Top 10 Crypto]
 WHERE Symbol = 'DOT';
 COMMIT;
 ROLLBACK;
 
-SELECT * FROM [Top 10 Crypto]
+SELECT * FROM [Top 10 Crypto];
 
-INSERT INTO [Top 10 Crypto] VALUES (9, 'DOT', 4.74, 4.2, 886.86)
-INSERT INTO [Top 10 Crypto] VALUES (10, 'BNB', 27.80, 4.01, 144.41)
+INSERT INTO [Top 10 Crypto] VALUES (9, 'DOT', 4.74, 4.2, 886.86);
+INSERT INTO [Top 10 Crypto] VALUES (10, 'BNB', 27.80, 4.01, 144.41);
 
 SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
 
@@ -225,15 +240,17 @@ COMMIT;
 
 SELECT * FROM Portfolio;
 
+
 -- CREATE and EXECUTE Procedures
 
 CREATE PROCEDURE Display
 AS
 SELECT * FROM Portfolio
-WHERE Amount > 100
+WHERE Amount > 100;
 GO;
 
 EXECUTE Display;
+
 
 -- SET NOCOUNT ON, SET NOCOUNT OFF
 
@@ -245,12 +262,14 @@ SET NOCOUNT OFF;
 
 SELECT * FROM [De-Fi];
 
--- TRUNCATE and DELETE End_Table
+
+-- TRUNCATE and DROP End_Table
 
 TRUNCATE TABLE End_Table;
 DROP TABLE End_Table;
 
--- Testing
+
+-- Testing to determine if End_Table still exists
 
 SELECT * FROM End_Table;
 
