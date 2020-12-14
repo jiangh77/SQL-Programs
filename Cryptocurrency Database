@@ -2,20 +2,33 @@
 This file create a Database with data on Cryptocurrencies from coinmarketcap.com and Manipulates the data
 
 This file demonstrates the following commands
+
 USE database
+
 CREATE, DELETE, ALTER, TRUNCATE Table
+
 CREATE and ADD PRIMARY keys and FOREIGN Keys
+
 CREATE Views using INNER JOIN and CROSS JOIN
+
 INNER JOIN, OUTER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN and CROSS JOIN statements
+
 ORDER BY
+
 SELECT, INSERT, UPDADTE, DELETE rows
-COUNT(), AVG() and SUM() Functions
-DISTINCT statement
-CASE ... WHEN ... THEN ... ELSE statement
-BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE
-SET NOCOUNT ON, SET NOCOUNT OFF
-User Defined Procedures
+
 Built-in Functions
+COUNT(), AVG() and SUM() Functions
+
+DISTINCT statement
+
+CASE ... WHEN ... THEN ... ELSE statement
+
+BEGIN TRAN, COMMIT, ROLL BACK, EXECUTE
+
+SET NOCOUNT ON, SET NOCOUNT OFF
+
+User Defined Procedures
 */
 
 
