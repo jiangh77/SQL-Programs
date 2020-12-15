@@ -1,13 +1,15 @@
 /*
 This file create a Database with data on Cryptocurrencies from coinmarketcap.com and Manipulates the data
 
-This file demonstrates the following commands
+This file demonstrates the following commands:
 
 USE database
 
 CREATE, DELETE, ALTER, TRUNCATE Table
 
 CREATE and ADD PRIMARY keys and FOREIGN Keys
+
+CREATE a TABLE using SELECT INTO
 
 CREATE Views using INNER JOIN and CROSS JOIN
 
@@ -16,6 +18,8 @@ INNER JOIN, OUTER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN and CROSS JOIN stateme
 ORDER BY
 
 SELECT, INSERT, UPDADTE, DELETE rows
+
+SELECT using AND, BETWEEN, OR, <>, IS NULL, IS NOT NULL
 
 Built-in Functions: COUNT(), AVG() and SUM() Functions
 
@@ -121,7 +125,6 @@ VALUES (5, 'BCH', 264.8, 1.92, 18.57),
 SELECT * FROM [Top 10 Crypto];
 SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
 
-
 /*
 INSERT VALUES INTO table [De-Fi]
 Price is in USD
@@ -138,7 +141,6 @@ VALUES (1, 'LINK', 12.06, 4.78, 396.51),
 
 SELECT * FROM [De-Fi];
 SELECT * FROM [De-Fi] ORDER BY TotalSupply;
-
 
 /*
 INSERT VALUES INTO table Sample Portfolio
@@ -157,6 +159,19 @@ VALUES (1, 'BTC', 0.7, 8000, 1000000),
 INSERT INTO End_Table (Ranking, Symbol, Amount) VALUES (1, 'BTC', 56.3567),
 (2, 'ETH', 0.256),
 (3, 'XRP', 15.25678);
+
+/*
+CREATE a TABLE using SELECT INTO
+SELECT Top 5 Cryptocurrencies from Top 10 Crypto Table and Create a new table
+*/
+
+SELECT Ranking, Symbol, Price, Marketcap, TotalSupply INTO Top5
+FROM [Top 10 Crypto]
+WHERE Ranking <= 5;
+
+SELECT * FROM Top5;
+DROP TABLE Top5;
+
 
 -- CREATE a VIEWS using INNER JOIN and CROSS JOIN
 
@@ -192,6 +207,33 @@ SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbo
 FROM [Top 10 Crypto]
 RIGHT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
 ORDER BY [Top 10 Crypto].Ranking DESC;
+
+
+-- SELECT using AND, BETWEEN, OR, <>, IS NULL, IS NOT NULL
+
+SELECT Ranking, Symbol, Price
+FROM [Top 10 Crypto]
+WHERE Ranking < 5 AND Price > 300;
+
+SELECT Ranking, Marketcap, TotalSupply
+FROM [Top 10 Crypto]
+WHERE Ranking BETWEEN 4 AND 8;
+
+SELECT Ranking, Symbol, Price
+FROM [De-Fi]
+WHERE Ranking <> 5 OR Symbol = 'DAI';
+
+SELECT * FROM Top5
+WHERE Symbol IS NOT NULL;
+
+SELECT * FROM Top5
+WHERE Symbol IS NULL;
+
+SELECT * FROM [Top 10 Crypto];
+SELECT * FROM [De-Fi];
+SELECT * FROM Portfolio;
+SELECT * FROM End_Table;
+SELECT * FROM Top5;
 
 
 -- Built-in Functions: COUNT, AVG, SUM Functions
