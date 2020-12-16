@@ -54,7 +54,7 @@ CREATE TABLE [Top 10 Crypto](
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
 	);
-GO;
+GO
 
 
 -- Create 1 table for Sample Portfolio
@@ -65,8 +65,8 @@ CREATE TABLE Portfolio(
 	Amount decimal (20, 2) NULL,
 	[Purchase Price] decimal (20,2),
 	[Selling Price] decimal (20,2),
-);
-GO;
+	);
+GO
 
 -- Create 1 table for De-Fi (Decentralized Finanace) Coins listed on coinmarketcap.com
 
@@ -77,7 +77,7 @@ CREATE TABLE [De-Fi](
 	Marketcap decimal (20,2),
 	TotalSupply decimal (20,2),
 	);
-GO;
+GO
 
 -- Create a End table for testing purposes and CREATE a PRIMARY Key at the same time
 
@@ -86,8 +86,8 @@ CREATE TABLE End_Table(
 	Symbol varchar (50) NOT NULL,
 	Amount decimal (10,3) NULL,
 	CONSTRAINT PK_Coin PRIMARY KEY (Symbol)
-);
-GO;
+	);
+GO
 
 -- Add PRIMARY KEY on [Top 10 Crypto] table based on the Symbol column
 
@@ -328,7 +328,7 @@ CREATE PROCEDURE Display
 AS
 SELECT * FROM Portfolio
 WHERE Amount > 100;
-GO;
+GO
 
 EXECUTE Display;
 
