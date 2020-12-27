@@ -1,7 +1,13 @@
 /*
 This program uses the team roster for Tempa Bay Buccaneers of NFL to demonstrate following SQL commands:
 
-EXCEPT
+CREATE, ALTER, ADD, DROP, INSERT, SELECT
+
+DISTINCT, EXCEPT, INTERSECT, UNION, INNER JOIN, CROSS JOIN, GROUP BY, HAVING COUNT(), CASE, EXEC
+
+INNER JOIN, LEFT and RIGHT OUTER JOIN FULL OUTER JOIN, User Defined Procedure
+
+PRIMARY KEY
 
 */
 
@@ -52,8 +58,6 @@ FROM Roster_2
 WHERE (LastName <> 'Brady')
 ORDER BY FirstName, LastName DESC;
 
-/*
-
 SELECT Roster_1.LastName, Roster_1.FirstName, Roster_2.ID, Roster_2.Age, Roster_1.ID * Roster_1.Age AS Expr1
 FROM  Roster_1 INNER JOIN
 Roster_2 ON Roster_1.ID = Roster_2.ID;
@@ -84,11 +88,11 @@ INNER JOIN Roster_1
 ON Roster_2.ID = Roster_1.ID;
 
 SELECT Roster_2.LastName, Roster_2.FirstName, Roster_1.Age, Roster_1.ID FROM Roster_2
-left JOIN Roster_1
+LEFT OUTER JOIN Roster_1
 ON Roster_2.ID = Roster_1.ID;
 
 SELECT Roster_2.LastName, Roster_2.FirstName, Roster_1.Age, Roster_1.ID FROM Roster_2
-RIGHT JOIN Roster_1
+RIGHT OUTER JOIN Roster_1
 ON Roster_2.ID = Roster_1.ID;
 
 SELECT Roster_2.LastName, Roster_2.FirstName, Roster_1.Age, Roster_1.ID FROM Roster_2
@@ -99,10 +103,10 @@ SELECT * FROM Roster_2
 INNER JOIN Roster_1 ON Roster_2.ID = Roster_1.ID;
 
 SELECT * FROM Roster_2
-RIGHT JOIN Roster_1 ON Roster_2.ID = Roster_1.ID;
+RIGHT OUTER JOIN Roster_1 ON Roster_2.ID = Roster_1.ID;
 
 SELECT * FROM Roster_2
-LEFT JOIN Roster_1 ON Roster_2.ID = Roster_1.ID;
+LEFT OUTER JOIN Roster_1 ON Roster_2.ID = Roster_1.ID;
 
 SELECT * FROM Roster_2
 FULL OUTER JOIN Roster_1 ON Roster_2.ID = Roster_1.ID;
@@ -115,101 +119,71 @@ CROSS JOIN Roster_1;
 
 SELECT Roster_2.ID FROM Roster_2, Roster_1;
 
-SELECT * FROM Roster_2 WHERE Roster_2.ID > 99
-CROSS JOIN Roster_1;
-
-
-
 SELECT COUNT(ID)
 FROM Roster_2;
 
-ALTER TABLE Roster_1
+ALTER TABLE Roster_2
 ADD PRIMARY KEY (ID);
-
-ALTER TABLE Roster_1
-ADD CONSTRAINT PK_PersON PRIMARY KEY (ID);
-
-ALTER TABLE Roster_1
-DROP CONSTRAINT PK_PersON;
-
-ALTER TABLE Roster_1
-ADD PRIMARY KEY (ID);
-
-ALTER TABLE Roster_1
-ADD CONSTRAINT PK_PersON PRIMARY KEY (ID);
-
-ALTER TABLE Roster_1
-ADD UNIQUE (LastName);
-
-ALTER TABLE Roster_1
-DROP UNIQUE (LastName);
-
-ALTER TABLE Roster_1
-ADD CONSTRAINT PersON_Last UNIQUE (FirstName);
-
-ALTER TABLE Roster_1
-ADD CONSTRAINT PK_PersONID PRIMARY KEY (ID);
-
-/* for some reasON the FOREIGN KEY statement below is not working but it should */
 
 ALTER TABLE Roster_2
-ADD CONSTRAINT FK_MyID FOREIGN KEY (ID) REFERENCES Roster_1(ID);
+ADD CONSTRAINT PK_Person PRIMARY KEY (ID);
 
-CREATE TABLE Planets1 (name VARCHAR (50), diameter VARCHAR (50))
-INSERT INTO Planets1 (name, diameter) VALUES ('earth', CAST (10000 AS VARCHAR (50)))
-SELECT * FROM Planets1;
+ALTER TABLE Roster_2
+DROP CONSTRAINT PK_Person;
+
+ALTER TABLE Roster_1
+ADD CONSTRAINT UC_Person UNIQUE (LastName);
+
+/*
+ALTER TABLE Roster_1
+ADD UNIQUE (LastName);
+*/
+
+ALTER TABLE Roster_1
+DROP CONSTRAINT UC_Person;
 
 CREATE VIEW VIEWRoster_2 AS
 SELECT ID, Age FROM Roster_2;
 
 SELECT * FROM VIEWRoster_2;
 
--- To CONtinue Editing
-
-INSERT INTO Roster_2 VALUES (101, 'Jiang', 'Howard', 42);
-INSERT INTO Roster_2 VALUES (102, 'Lau', 'JON', 37);
-
-CREATE VIEW Roster_21 AS
+CREATE VIEW Roster_101 AS
 SELECT ID, Age FROM Roster_2
-WHERE ID = (101);
+WHERE ID > 101;
+
+SELECT * FROM Roster_101;
+
+DROP VIEW Roster_101;
 
 SELECT * FROM Roster_1;
 SELECT * FROM Roster_2;
 
-INSERT INTO Roster_1 VALUES (103, 'Tang', 'Mark', 42);
-INSERT INTO Roster_1 VALUES (104, 'Hsu', 'Dan', 38);
-
 SELECT LastName, FirstName FROM Roster_2 WHERE ID > 100;
 SELECT LastName, FirstName FROM Roster_2 WHERE ID = 101;
-SELECT LastName, FirstName FROM Roster_2 WHERE FirstName = 'howard';
 
 SELECT DISTINCT LastName FROM Roster_2;
-SELECT * FROM Roster_2 order by ID ASC;
-SELECT * FROM Roster_2 order by ID DESC;
+SELECT * FROM Roster_2 ORDER BY ID ASC;
+SELECT * FROM Roster_2 ORDER BY ID DESC;
 
 SELECT * FROM Roster_2 WHERE ID > 100 AND ID < 104;
 SELECT * FROM Roster_2 WHERE ID BETWEEN 100 AND 104;
-SELECT LastName,FirstName, Age FROM Roster_2 WHERE not ID = 101;
+SELECT LastName,FirstName, Age FROM Roster_2 WHERE NOT ID = 101;
 SELECT LastName,FirstName, Age FROM Roster_2 WHERE ID <> 101;
-
-INSERT INTO Roster_2 VALUES (103, 'Tang', 'Mark', 42);
-INSERT INTO Roster_2 VALUES (104, 'Hsu', 'Dan', 38);
 
 SELECT * FROM Roster_2;
 SELECT * FROM Roster_1;
 
 SELECT LastName, FirstName FROM Roster_2
 WHERE ID = 101
-uniON
+UNION
 SELECT LastName, FirstName FROM Roster_1
 WHERE ID = 104;
 
 SELECT * FROM Roster_2
 WHERE ID = 101
-uniON
+UNION
 SELECT * FROM Roster_1
 WHERE ID = 104;
-
 
 SELECT * FROM Roster_2
 WHERE ID BETWEEN 102 AND 103
@@ -251,10 +225,6 @@ SELECT ID FROM Roster_2
 EXCEPT
 SELECT ID FROM Roster_1;
 
-
-INSERT INTO Roster_2 VALUES (100, 'Ben', 'Hsu', 33);
-INSERT INTO Roster_1 VALUES (105, 'Dan', 'Cheng', 38);
-
 SELECT * FROM Roster_2 WHERE ID > 99
 INTERSECT
 SELECT * FROM Roster_1 WHERE ID < 106;
@@ -266,6 +236,8 @@ SELECT * FROM Roster_1 WHERE ID < 106;
 SELECT ID FROM Roster_2
 INTERSECT
 SELECT ID FROM Roster_1;
+
+/*
 
 SELECT ID FROM Roster_2
 EXCEPT
@@ -367,7 +339,7 @@ CASE
 	WHEN ID > 102 THEN 'ID > 102'
 	WHEN ID <= 102 AND ID > 99 THEN 'ID <= 102 AND ID > 99'
 	ELSE 'ID <= 99'
-END AS PrINTText
+END AS PrintText
 FROM Roster_2;
 
 SELECT * FROM Roster_1;
