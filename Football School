@@ -3,11 +3,11 @@ This program uses the team roster for Tempa Bay Buccaneers of NFL to demonstrate
 
 CREATE, ALTER, ADD, DROP, INSERT, SELECT
 
-DISTINCT, EXCEPT, INTERSECT, UNION, INNER JOIN, CROSS JOIN, GROUP BY, HAVING COUNT(), CASE, EXEC
+DISTINCT, EXCEPT, INTERSECT, UNION, INNER JOIN, CROSS JOIN, GROUP BY, HAVING COUNT(), CASE
 
-INNER JOIN, LEFT and RIGHT OUTER JOIN FULL OUTER JOIN, User Defined Procedure
+INNER JOIN, LEFT and RIGHT OUTER JOIN FULL OUTER JOIN, CROSS JOIN
 
-PRIMARY KEY
+User Defined Procedure, EXEC / EXECUTE, DROP, PRIMARY KEY
 
 */
 
@@ -135,6 +135,8 @@ ALTER TABLE Roster_1
 ADD CONSTRAINT UC_Person UNIQUE (LastName);
 
 /*
+2 lines below will also work
+
 ALTER TABLE Roster_1
 ADD UNIQUE (LastName);
 */
@@ -237,8 +239,6 @@ SELECT ID FROM Roster_2
 INTERSECT
 SELECT ID FROM Roster_1;
 
-/*
-
 SELECT ID FROM Roster_2
 EXCEPT
 SELECT ID FROM Roster_1;
@@ -259,37 +259,32 @@ SELECT * FROM VIEW_2;
 
 SELECT * FROM Roster_2 CROSS JOIN Roster_1;
 
-INSERT INTO Roster_2 (ID, FirstName, LastName, Age) VALUES (99, 'Yang', 'Mi', 33);
 DELETE FROM Roster_2 WHERE ID = 99;
 
-INSERT INTO Roster_2 (ID, LastName, FirstName, Age) VALUES (99, 'Yang', 'Mi', 33), (98, 'Yao', 'Bi', 33);
-INSERT INTO Roster_2 (ID, LastName) VALUES (97,'Name');
 DELETE FROM Roster_2 WHERE ID = 97;
 
-UPDATE Roster_2
-SET LastName = 'Fu', Age = 32
-WHERE ID = 98;
+SELECT * FROM Roster_1;
+SELECT * FROM Roster_2;
 
 UPDATE Roster_2
-SET Age = 33
-WHERE ID = 98;
+SET Age = 27
+WHERE ID = 104;
 
 SELECT * FROM Roster_2;
-SELECT * FROM VIEW_1;
 
 SELECT * FROM VIEWRoster_2;
-SELECT * FROM VIEWRoster_21;
 
 DELETE FROM VIEWRoster_2
-WHERE ID = 98;
+WHERE ID = 106;
+
+SELECT * FROM VIEWRoster_2;
 
 DELETE FROM VIEWRoster_2
-WHERE ID < 101;
+WHERE ID < 102;
 
-INSERT INTO Roster_2 VALUES (96, 'Bi', 'Yao', 32);
+SELECT * FROM VIEWRoster_2;
 
-SELECT * FROM Roster_2;
-
+DROP VIEW VIEWRoster_2;
 
 SELECT * FROM Roster_2
 CROSS JOIN Roster_1;
@@ -297,14 +292,12 @@ CROSS JOIN Roster_1;
 SELECT Roster_2.ID FROM Roster_2
 CROSS JOIN Roster_1;
 
-SELECT Roster_2.ID FROM Roster_2, Roster_1;
-
-/* RESTORE DATABASE Example */
+/* 
+RESTORE DATABASE Example
 RESTORE DATABASE Practice FROM DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\Backup\practice.bak'
+*/
 
 SELECT * FROM Roster_1;
-SELECT * FROM Planets;
-SELECT * FROM Planets1;
 SELECT * FROM Roster_2;
 
 /* COUNT HAVING */
@@ -313,14 +306,13 @@ FROM Roster_2
 GROUP BY Age
 HAVING COUNT(ID) > 1;
 
-/* the following doesn't work */
 SELECT COUNT(ID)
 FROM Roster_2
 HAVING COUNT(ID) > 1;
 
 SELECT COUNT(ID)
 FROM Roster_2
-HAVING COUNT(ID) > 2;
+HAVING COUNT(ID) > 3;
 
 SELECT COUNT (*) FROM Roster_2;
 
@@ -328,9 +320,9 @@ SELECT COUNT (*) FROM Roster_2;
 
 SELECT ID, Age,
 CASE 
-	WHEN ID > 101 THEN 'ID > 101'
-	WHEN ID = 101 THEN 'ID = 101'
-	ELSE 'ID < 101'
+	WHEN ID > 103 THEN 'ID > 103'
+	WHEN ID > 102 AND ID >= 103 THEN 'ID > 102 AND ID >= 103'
+	ELSE 'ID <= 102'
 END AS QuantityText
 FROM Roster_2;
 
@@ -340,18 +332,33 @@ CASE
 	WHEN ID <= 102 AND ID > 99 THEN 'ID <= 102 AND ID > 99'
 	ELSE 'ID <= 99'
 END AS PrintText
-FROM Roster_2;
+FROM Roster_1;
+
+SELECT * FROM Roster_1;
+
+SELECT ID, Age,
+CASE 
+	WHEN ID > 100 THEN 'ID > 100'
+	WHEN ID = 100 THEN 'ID = 100'
+	ELSE 'ID <= 100'
+END AS PrintText
+FROM Roster_1;
 
 SELECT * FROM Roster_1;
 
 /* SET NOCOUNT ON */
+
+INSERT INTO Roster_1 VALUES (95, 'Justin', 'Watson', 25);
+INSERT INTO Roster_1 VALUES (94, 'Josh', 'Wells', 29);
+
 SET NOCOUNT ON;
-INSERT INTO Roster_1 VALUES (102, 'Tang', 'Cristina', 42);
-INSERT INTO Roster_1 VALUES (101, 'Hsu', 'Gab', 32);
+INSERT INTO Roster_2 VALUES (100, 'Tom', 'Brady', 32);
+
+UPDATE Roster_2 SET Age = 43
+WHERE ID = 100;
 
 SET NOCOUNT OFF;
-INSERT INTO Roster_1 VALUES (100, 'Ho', 'Rene', 32);
-INSERT INTO Roster_1 VALUES (99, 'Ho', 'Alvin', 35);
+INSERT INTO Roster_2 VALUES (101, 'Antonio', 'Brown', 32);
 
 SELECT * FROM Roster_2;
 
@@ -363,11 +370,13 @@ SELECT * FROM Roster_2;
 EXEC ShowRoster_2;
 EXECUTE ShowRoster_2;
 
+DROP PROCEDURE ShowRoster_2;
+
 CREATE PROCEDURE SELECTID @ShowAge INT
 AS
 SELECT * FROM Roster_2 WHERE Age = @ShowAge;
 
-EXEC SELECTID @ShowAge = 32;
+EXEC SELECTID @ShowAge = 43;
 
 DROP PROCEDURE SELECTID;
 
@@ -399,10 +408,6 @@ SELECT ID FROM Roster_2
 EXCEPT
 SELECT ID FROM Roster_1;
 
-SELECT ID FROM Roster_2
-EXCEPT
-SELECT ID FROM Roster_1;
-
 SELECT * FROM Roster_2
 EXCEPT
 SELECT * FROM Roster_1;
@@ -415,10 +420,8 @@ SELECT * FROM Roster_2
 INTERSECT
 SELECT * FROM Roster_1;
 
-INSERT INTO Roster_2 VALUES (105, 'Margret', 'Cheng', 32);
+INSERT INTO Roster_2 VALUES (106, 'Howard', 'Jiang',43);
 
-UPDATE Roster_2 SET Age = 38 WHERE ID = 105;
+UPDATE Roster_2 SET Age = 18 WHERE ID = 106;
 
 -- the end
-
-*/
