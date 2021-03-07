@@ -40,6 +40,9 @@ TRUNCATE and DROP TABLE
 
 */
 
+-- Find out which verson of SQL Server is running
+
+SELECT @@VERSION
 
 -- USE Cryptocurrency database
 
@@ -108,13 +111,15 @@ Marketcap is in Billions
 TotalSupply is in Millions
 */
 
-INSERT INTO [Top 10 Crypto] VALUES (1, 'BTC', 18321.69, 340.12, 18.57);
+INSERT INTO [Top 10 Crypto]
+VALUES (1, 'BTC', 18321.69, 340.12, 18.57);
 
 INSERT INTO [Top 10 Crypto](Ranking, Symbol, Price, Marketcap, TotalSupply)
 VALUES (2, 'ETH', 553.89, 63.12, 113.80),
 (3, 'XRP', 0.53, 24.12, 45404.03);
 
-INSERT INTO [Top 10 Crypto] VALUES (4, 'USDT', 1.00, 19.83, 19817);
+INSERT INTO [Top 10 Crypto]
+VALUES (4, 'USDT', 1.00, 19.83, 19817);
 
 INSERT INTO [Top 10 Crypto](Ranking, Symbol, Price, Marketcap, TotalSupply)
 VALUES (5, 'BCH', 264.8, 1.92, 18.57),
@@ -156,6 +161,14 @@ VALUES (1, 'BTC', 0.7, 8000, 1000000),
 (4, 'XLM', 3300, 0.4, 20),
 (5, 'EOS', 247, 12.5, 1000);
 
+SELECT * FROM Portfolio;
+
+-- Find second highest Value in Amount column
+
+SELECT MAX(Amount)
+FROM Portfolio
+WHERE Amount < (SELECT MAX(Amount) FROM Portfolio);
+
 -- INSERT Values INTO End_Table
 
 INSERT INTO End_Table (Ranking, Symbol, Amount) VALUES (1, 'BTC', 56.3567),
@@ -180,7 +193,8 @@ DROP TABLE Top5;
 CREATE VIEW CoinMatch AS
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
-INNER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
 
 SELECT * FROM CoinMatch;
 
@@ -193,23 +207,110 @@ SELECT * FROM CoinMatch2;
 CREATE VIEW CoinMatch3 AS
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
-INNER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol;
 
 SELECT * FROM CoinMatch3;
 
 
 -- SELECT using LEFT and RIGHT OUTER JOIN and ORDER BY ASC and DSC
 
+USE Cryptocurrency;
+
+SELECT Portfolio, [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol, Portfolio.[Purchase Price]
+FROM [Top 10 Crypto]
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE Portfolio.Ranking = 1;
+
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, Portfolio.[Purchase Price]
+FROM [Top 10 Crypto]
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE Portfolio.Ranking = 1;
+
+-- only shows the BTC record that exists in both tables and display related data in both tables, it works
+
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol, Portfolio.Amount, Portfolio.[Selling Price]
+FROM [Top 10 Crypto]
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Ranking = 1;
+
+-- only shows the BTC record that exists in both tables but only show requested data in one table, it works
+
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
-LEFT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+LEFT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
 ORDER BY [Top 10 Crypto].Ranking ASC;
 
 SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
 FROM [Top 10 Crypto]
-RIGHT OUTER JOIN Portfolio ON [Top 10 Crypto].Symbol = Portfolio.Symbol
-ORDER BY [Top 10 Crypto].Ranking DESC;
+RIGHT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Marketcap > 60
+ORDER BY [Top 10 Crypto].Ranking ASC;
 
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
+FROM [Top 10 Crypto]
+RIGHT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Marketcap > 60
+	AND [Top 10 Crypto].Price > 1000
+ORDER BY [Top 10 Crypto].Ranking ASC;
+
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
+FROM [Top 10 Crypto]
+RIGHT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Marketcap > 60
+	AND [Top 10 Crypto].Price > 1000
+	AND [Top 10 Crypto].TotalSupply > 17
+ORDER BY [Top 10 Crypto].Ranking ASC;
+
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
+FROM [Top 10 Crypto]
+RIGHT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Marketcap > 60
+	AND [Top 10 Crypto].Price > 1000
+	AND ([Top 10 Crypto].TotalSupply > 17)
+ORDER BY [Top 10 Crypto].Ranking ASC;
+
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
+FROM [Top 10 Crypto]
+RIGHT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Marketcap > 60
+	AND [Top 10 Crypto].Price > 1000
+	AND ([Top 10 Crypto].TotalSupply > 17
+		AND [Top 10 Crypto].TotalSupply <19)
+ORDER BY [Top 10 Crypto].Ranking ASC;
+
+SELECT [Top 10 Crypto].Ranking, [Top 10 Crypto].Marketcap, [Top 10 Crypto].Symbol
+FROM [Top 10 Crypto]
+RIGHT OUTER JOIN Portfolio
+ON [Top 10 Crypto].Symbol = Portfolio.Symbol
+WHERE [Top 10 Crypto].Marketcap > 60
+	AND [Top 10 Crypto].Price > 1000
+	AND [Top 10 Crypto].TotalSupply > 17
+	AND [Top 10 Crypto].TotalSupply <19
+ORDER BY [Top 10 Crypto].Ranking ASC;
+
+-- works with and without ()
+
+SELECT AVG(price)
+FROM [Top 10 Crypto]
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Ranking = Portfolio.Ranking
+
+SELECT AVG(price)
+FROM [Top 10 Crypto]
+INNER JOIN Portfolio
+ON [Top 10 Crypto].Ranking = Portfolio.Ranking
+WHERE [Top 10 Crypto].Marketcap = 340.12
+	AND Portfolio.[Purchase Price] NOT BETWEEN 50 AND 250;
 
 -- SELECT using AND, BETWEEN, OR, <>, IS NULL, IS NOT NULL
 
@@ -240,16 +341,21 @@ SELECT * FROM Top5;
 
 -- INSERT
 
-INSERT INTO [De-Fi] VALUES (6, 'FYI', 26061.23, 0.78, 0.029);
-INSERT INTO [De-Fi] VALUES (7, 'COMP', 148.61, 0.6, 4.37);
+INSERT INTO [De-Fi]
+VALUES (6, 'FYI', 26061.23, 0.78, 0.029);
+
+INSERT INTO [De-Fi]
+VALUES (7, 'COMP', 148.61, 0.6, 4.37);
 
 
 -- UPDATE
 
-UPDATE [De-Fi] SET Price = 25139.23
+UPDATE [De-Fi]
+SET Price = 25139.23
 WHERE Symbol = 'FYI';
 
-UPDATE [De-Fi] SET Marketcap = 0.65
+UPDATE [De-Fi]
+SET Marketcap = 0.65
 WHERE Ranking = 7;
 
 
@@ -297,26 +403,39 @@ FROM [Top 10 Crypto];
 -- BEGIN TRAN, COMMIT, ROLLBACK, EXECUTE
 
 BEGIN TRAN;
+
 DELETE FROM [Top 10 Crypto]
 WHERE Symbol = 'DOT';
+
 COMMIT;
+
 ROLLBACK;
 
 SELECT * FROM [Top 10 Crypto];
 
-INSERT INTO [Top 10 Crypto] VALUES (9, 'DOT', 4.74, 4.2, 886.86);
-INSERT INTO [Top 10 Crypto] VALUES (10, 'BNB', 27.80, 4.01, 144.41);
+INSERT INTO [Top 10 Crypto]
+VALUES (9, 'DOT', 4.74, 4.2, 886.86);
 
-SELECT * FROM [Top 10 Crypto] ORDER BY Ranking;
+INSERT INTO [Top 10 Crypto]
+VALUES (10, 'BNB', 27.80, 4.01, 144.41);
+
+SELECT * FROM [Top 10 Crypto]
+ORDER BY Ranking;
 
 SELECT * FROM Portfolio;
 
 BEGIN TRAN;
-DELETE FROM Portfolio WHERE Ranking = 1;
+
+DELETE FROM Portfolio
+WHERE Ranking = 1;
+
 ROLLBACK;
 
 BEGIN TRAN;
-INSERT INTO Portfolio VALUES (6, 'TRX', 23000, 0.07, 10);
+
+INSERT INTO Portfolio
+VALUES (6, 'TRX', 23000, 0.07, 10);
+
 COMMIT;
 
 SELECT * FROM Portfolio;
@@ -328,6 +447,7 @@ CREATE PROCEDURE Display
 AS
 SELECT * FROM Portfolio
 WHERE Amount > 100;
+
 GO
 
 EXECUTE Display;
@@ -337,11 +457,13 @@ EXECUTE Display;
 
 SET NOCOUNT ON;
 
-INSERT INTO [De-Fi] VALUES (7, 'COMP', 148.61, 0.6, 4.37);
+INSERT INTO [De-Fi]
+VALUES (7, 'COMP', 148.61, 0.6, 4.37);
 
 SET NOCOUNT OFF;
 
-INSERT INTO [De-Fi] VALUES (8, 'SNX', 5.25, 0.58, 110.48);
+INSERT INTO [De-Fi]
+VALUES (8, 'SNX', 5.25, 0.58, 110.48);
 
 SELECT * FROM [De-Fi];
 
